@@ -18,7 +18,10 @@ app.use(bodyParser.json());
 app.use(express.static("dist"));
 
 app.get("/test", (req, res) => {
-  res.send("SELECT * FROM TestColumns");
+  pool
+    .query("SELECT * FROM TestColumns")
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
 });
 
 const port = process.env.PORT || 4000;
