@@ -40,4 +40,8 @@ export default {
 .f-row {
   flex-direction: row;
 }
+
+.cp {
+  cursor: pointer;
+}
 </style>
