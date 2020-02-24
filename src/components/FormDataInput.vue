@@ -83,7 +83,7 @@
           Submit
         </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="validate">
+        <v-btn color="error" class="mr-4" @click="reset">
           Reset Form
         </v-btn>
       </v-form>
@@ -123,7 +123,7 @@ export default {
   }),
   methods: {
     validate() {
-      console.log("validator:", this.$refs.form.validate());
+      return this.$refs.form.validate();
     },
     reset() {
       this.$refs.form.reset();
@@ -136,6 +136,7 @@ export default {
     },
     submitForm() {
       this.error = "";
+      if (this.validate()) return false;
 
       const formObj = {
         date: this.date,
