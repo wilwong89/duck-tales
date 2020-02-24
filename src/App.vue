@@ -34,7 +34,7 @@ export default {
 
 <style>
 .content-container {
-  width: 85vw;
+  width: 75vw;
   max-height: 80vh;
   margin-top: 64px;
   margin-left: auto;
