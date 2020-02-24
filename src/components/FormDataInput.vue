@@ -136,7 +136,10 @@ export default {
     },
     submitForm() {
       this.error = "";
-      if (this.validate()) return false;
+      if (!this.validate()) {
+        console.log("Form invalid");
+        return false;
+      }
 
       const formObj = {
         date: this.date,

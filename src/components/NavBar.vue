@@ -1,24 +1,17 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <div class="d-flex align-center">
+    <div class="d-flex align-center cp" @click="reloadPage">
       <v-img
         alt="Vuetify Logo"
         class="shrink mr-2"
         contain
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+        src="../assets/duckImg.png"
         transition="scale-transition"
-        width="40"
+        width="60"
       />
-
-      <v-img
-        alt="Vuetify Name"
-        class="shrink mt-1 hidden-sm-and-down"
-        contain
-        min-width="100"
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-        width="100"
-      />
+      <div class="nav-title">Duck tales: crowd-sourced</div>
     </div>
+
     <v-tabs @change="emitTabChange" right height="65">
       <v-tab>Input Data</v-tab>
       <v-tab>View Data</v-tab>
@@ -38,18 +31,20 @@ export default {
   methods: {
     emitTabChange: function(event) {
       this.$emit("tabSelected", event);
+    },
+    reloadPage: function() {
+      location.reload();
     }
   }
 };
 </script>
 
 <style>
-.nav-container {
-  width: 100%;
-  background-color: lightseagreen;
-}
-
-.nav-item {
-  line-height: 100px;
+.nav-title {
+  width: 370px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
