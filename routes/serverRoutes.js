@@ -6,28 +6,47 @@ router.get("/test", (req, res) => {
   res.send("GET /test");
 });
 
-router.get("/feedData", (req, res) => {
+router.get("/", (req, res) => {
   db.getAllFeedings()
     .then(dbRes => {
       res.send(dbRes.rows);
     })
     .catch(err => {
-      console.log("GET /feedData:", err);
+      console.log("GET /:", err);
       res.send(err);
     });
 });
 
-router.put("/feedData", (req, res) => {
-  const [date, time] = req.body;
-  const [
+router.put("/", (req, res) => {
+  const {
+    date,
+    time,
     foodType,
     location,
-    number_of_ducks,
-    food_amount,
-    food_units
-  ] = req.body;
-  console.log("PUT /feedData", req.body);
-  res.send({ data: "success" });
+    numberOfDucks,
+    feedAmount,
+    feedUnits
+  } = req.body;
+  let tempDate = new Date(date);
+  let [hours, minutes] = time.split(":");
+  tempDate.setHours(Number(hours));
+  tempDate.setMinutes(Number(minutes));
+
+  db.insertFeeding([
+    tempDate.getTime(),
+    foodType,
+    location,
+    numberOfDucks,
+    feedAmount,
+    feedUnits
+  ])
+    .then(result => {
+      res.send({ data: result });
+    })
+    .catch(err => {
+      console.log("PUT insertFeeding:", err);
+      res.send({ error: err });
+    });
 });
 
 module.exports = router;

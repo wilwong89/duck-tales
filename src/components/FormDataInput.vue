@@ -35,6 +35,12 @@
         ></v-text-field>
         <v-text-field
           class=""
+          type="number"
+          v-model.number="numberOfDucks"
+          label="Number of ducks fed"
+        ></v-text-field>
+        <v-text-field
+          class=""
           v-model.trim="foodType"
           label="Type of food"
         ></v-text-field>
@@ -60,9 +66,9 @@
           :disabled="!valid"
           color="success"
           class="mr-4"
-          @click="validate"
+          @click="submitForm"
         >
-          Validate
+          Submit
         </v-btn>
 
         <v-btn color="error" class="mr-4" @click="reset">
@@ -74,26 +80,24 @@
 </template>
 
 <script>
+import serverCalls from "../ajax_calls/serverCalls";
 export default {
   data: () => ({
     valid: true,
     date: "",
     time: "",
-    name: "",
-    feedLocation: "",
     foodType: "",
+    feedLocation: "",
+    numberOfDucks: "",
     feedAmount: "",
     feedUnits: "",
     feedUnitItems: ["Ounces", "Pounds", "Grams", "Kilograms"],
     showDatePicker: false,
     showTimePicker: false
   }),
-
   methods: {
     validate() {
-      if (this.$refs.form.validate()) {
-        this.snackbar = true;
-      }
+      console.log("validator:", this.$refs.form.validate());
     },
     reset() {
       this.$refs.form.reset();
@@ -103,6 +107,26 @@ export default {
     },
     toggleTimePicker() {
       this.showTimePicker = !this.showTimePicker;
+    },
+    submitForm() {
+      const formObj = {
+        date: this.date,
+        time: this.time,
+        location: this.feedLocation,
+        numberOfDucks: this.numberOfDucks,
+        foodType: this.foodType,
+        feedAmount: this.feedAmount,
+        feedUnits: this.feedUnits
+      };
+      console.log(formObj);
+      serverCalls
+        .submitFormCall(formObj)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
