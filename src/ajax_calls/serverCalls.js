@@ -9,5 +9,14 @@ export default {
         console.log("submitForm error", err);
         return err;
       });
+  },
+  getFeedingData: () => {
+    return axios
+      .get("/data")
+      .then(response => response.data)
+      .catch(err => {
+        console.log("submitForm error", err);
+        return err;
+      });
   }
 };
