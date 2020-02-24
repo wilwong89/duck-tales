@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col cols="5">Some stuff in here now</v-col>
     <v-col cols="5">
-      <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+      <v-form ref="form" v-model="valid">
         <v-text-field
           @click="toggleDatePicker()"
           class="cp"
@@ -108,8 +108,4 @@ export default {
 };
 </script>
 
-<style>
-.half {
-  width: 50% !important;
-}
-</style>
+<style></style>
