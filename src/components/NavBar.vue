@@ -19,6 +19,10 @@
         width="100"
       />
     </div>
+    <v-tabs @change="emitTabChange" right height="65">
+      <v-tab>Input Data</v-tab>
+      <v-tab>View Data</v-tab>
+    </v-tabs>
   </v-app-bar>
 </template>
 
@@ -26,19 +30,26 @@
 export default {
   name: "NavBar",
   props: {},
-  methods: {}
+  data: function() {
+    return {
+      uiViews: ["Input Data", "View Data"]
+    };
+  },
+  methods: {
+    emitTabChange: function(event) {
+      this.$emit("tabSelected", event);
+    }
+  }
 };
 </script>
 
 <style>
 .nav-container {
-  height: 100px;
   width: 100%;
   background-color: lightseagreen;
 }
 
 .nav-item {
-  height: 100%;
   line-height: 100px;
 }
 </style>

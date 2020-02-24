@@ -1,9 +1,12 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="5">Some stuff in here now</v-col>
+  <v-row justify="center" align="center" align-items="stretch">
     <v-col cols="5">
-      <v-form ref="form" v-model="valid">
+      <v-img class="input-column" src="https://i.imgur.com/LNBKydL.jpg"></v-img>
+    </v-col>
+    <v-col cols="5">
+      <v-form class="input-column" ref="form" v-model="valid">
         <v-text-field
+          v-show="!showDatePicker"
           @click="toggleDatePicker()"
           class="cp"
           v-model="date"
@@ -19,6 +22,7 @@
         <v-text-field
           @click="toggleTimePicker()"
           class="cp"
+          v-show="!showTimePicker"
           v-model="time"
           readonly
           label="Time"
@@ -118,7 +122,6 @@ export default {
         feedAmount: this.feedAmount,
         feedUnits: this.feedUnits
       };
-      console.log(formObj);
       serverCalls
         .submitFormCall(formObj)
         .then(result => {

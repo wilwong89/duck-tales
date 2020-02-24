@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <nav-bar></nav-bar>
+    <nav-bar @tabSelected="handleTabChange"></nav-bar>
     <div class="content-container">
-      <form-data-input></form-data-input>
+      <form-data-input v-if="!viewInput"></form-data-input>
     </div>
   </v-app>
 </template>
@@ -18,19 +18,22 @@ export default {
     NavBar,
     FormDataInput
   },
-
   data: () => ({
-    //
-  })
+    viewInput: 0
+  }),
+  methods: {
+    handleTabChange: function(payload) {
+      this.viewInput = payload;
+    }
+  }
 };
 </script>
 
 <style>
 .content-container {
-  margin-top: 64px;
-}
-.flex {
-  display: flex;
+  padding-top: 64px;
+  max-width: 1366px;
+  margin: auto;
 }
 
 .f-col {
