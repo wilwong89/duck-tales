@@ -6,23 +6,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
-const { Pool } = require("pg");
-const dbUri = {
-  connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_URI}`
-};
-const pool = new Pool(dbUri);
-
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("dist"));
 
-app.get("/test", (req, res) => {
-  pool
-    .query("SELECT * FROM TestColumns")
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
-});
+app.use("/data", require("./routes/serverRoutes"));
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
