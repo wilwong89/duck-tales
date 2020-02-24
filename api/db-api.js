@@ -17,7 +17,7 @@ const getAllFeedings = () => {
 const insertFeeding = valuesArray => {
   const queryString = `INSERT INTO DuckFeedings (
         "date",
-        "foodType",
+        "food",
         "location",
         "number_of_ducks",
         "food_amount",

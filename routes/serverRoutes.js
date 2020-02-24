@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("../api/db-api");
 
+const entryValidator = (a, b, c, d, e, f, g) => {
+  return a && b && c && d && e && f && g;
+};
+
 router.get("/test", (req, res) => {
   res.send("GET /test");
 });
@@ -19,14 +23,29 @@ router.get("/", (req, res) => {
 
 router.put("/", (req, res) => {
   const {
-    date,
-    time,
-    foodType,
-    location,
-    numberOfDucks,
-    feedAmount,
-    feedUnits
+    date = "",
+    time = "",
+    food = "",
+    location = "",
+    numberOfDucks = "",
+    feedAmount = "",
+    feedUnits = ""
   } = req.body;
+
+  if (
+    !entryValidator(
+      date,
+      time,
+      food,
+      location,
+      numberOfDucks,
+      feedAmount,
+      feedUnits
+    )
+  ) {
+    res.send({ error: "Invalid Entry" });
+    return "";
+  }
   let tempDate = new Date(date);
   let [hours, minutes] = time.split(":");
   tempDate.setHours(Number(hours));
@@ -34,7 +53,7 @@ router.put("/", (req, res) => {
 
   db.insertFeeding([
     tempDate.getTime(),
-    foodType,
+    food,
     location,
     numberOfDucks,
     feedAmount,

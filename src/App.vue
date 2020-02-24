@@ -3,6 +3,7 @@
     <nav-bar @tabSelected="handleTabChange"></nav-bar>
     <div class="content-container">
       <form-data-input v-if="!viewInput"></form-data-input>
+      <data-display v-else></data-display>
     </div>
   </v-app>
 </template>
@@ -10,13 +11,15 @@
 <script>
 import NavBar from "./components/NavBar";
 import FormDataInput from "./components/FormDataInput";
+import DataDisplay from "./components/DataDisplay";
 
 export default {
   name: "App",
 
   components: {
     NavBar,
-    FormDataInput
+    FormDataInput,
+    DataDisplay
   },
   data: () => ({
     viewInput: 0
@@ -31,9 +34,11 @@ export default {
 
 <style>
 .content-container {
-  padding-top: 64px;
-  max-width: 1366px;
-  margin: auto;
+  width: 85vw;
+  max-height: 80vh;
+  margin-top: 64px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .f-col {

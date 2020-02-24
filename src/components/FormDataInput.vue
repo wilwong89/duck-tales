@@ -11,6 +11,7 @@
           class="cp"
           v-model="date"
           readonly
+          :rules="dateRules"
           label="Date"
         ></v-text-field>
         <v-date-picker
@@ -24,6 +25,7 @@
           class="cp"
           v-show="!showTimePicker"
           v-model="time"
+          :rules="timeRules"
           readonly
           label="Time"
         ></v-text-field>
@@ -35,17 +37,21 @@
         <v-text-field
           class=""
           v-model.trim="feedLocation"
+          :rules="feedLocationRules"
           label="Where the ducks were fed"
         ></v-text-field>
         <v-text-field
           class=""
           type="number"
+          :rules="numDuckRules"
           v-model.number="numberOfDucks"
           label="Number of ducks fed"
+          min="0"
         ></v-text-field>
         <v-text-field
           class=""
-          v-model.trim="foodType"
+          :rules="foodRules"
+          v-model.trim="food"
           label="Type of food"
         ></v-text-field>
         <v-row>
@@ -53,7 +59,9 @@
             <v-text-field
               class=""
               type="number"
+              :rules="feedAmountRules"
               v-model.number="feedAmount"
+              min="0"
               label="Amount of food"
             ></v-text-field>
           </v-col>
@@ -62,7 +70,7 @@
               v-model="feedUnits"
               :items="feedUnitItems"
               label="Units"
-              required
+              :rules="feedUnitsRules"
             ></v-select>
           </v-col>
         </v-row>
@@ -75,7 +83,7 @@
           Submit
         </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="reset">
+        <v-btn color="error" class="mr-4" @click="validate">
           Reset Form
         </v-btn>
       </v-form>
@@ -89,15 +97,29 @@ export default {
   data: () => ({
     valid: true,
     date: "",
+    dateRules: [v => !!v || "Date is required"],
     time: "",
-    foodType: "",
+    timeRules: [v => !!v || "Time is required"],
+    food: "",
+    foodRules: [v => !!v || "What kind of food is required"],
     feedLocation: "",
+    feedLocationRules: [v => !!v || "Location is required"],
     numberOfDucks: "",
+    numDuckRules: [
+      v => !!v || "Number is required",
+      v => (v && v <= 32767) || "Cannot be over 32767 ducks"
+    ],
     feedAmount: "",
+    feedAmountRules: [
+      v => !!v || "Number is required",
+      v => (v && v <= 32767) || "Cannot be over 32767"
+    ],
     feedUnits: "",
+    feedUnitsRules: [v => !!v || "Units are required"],
     feedUnitItems: ["Ounces", "Pounds", "Grams", "Kilograms"],
     showDatePicker: false,
-    showTimePicker: false
+    showTimePicker: false,
+    error: ""
   }),
   methods: {
     validate() {
@@ -113,19 +135,25 @@ export default {
       this.showTimePicker = !this.showTimePicker;
     },
     submitForm() {
+      this.error = "";
+
       const formObj = {
         date: this.date,
         time: this.time,
         location: this.feedLocation,
         numberOfDucks: this.numberOfDucks,
-        foodType: this.foodType,
+        food: this.food,
         feedAmount: this.feedAmount,
         feedUnits: this.feedUnits
       };
       serverCalls
         .submitFormCall(formObj)
         .then(result => {
-          console.log(result);
+          if (result.error) {
+            this.error = result.error;
+          } else {
+            this.reset();
+          }
         })
         .catch(err => {
           console.log(err);
