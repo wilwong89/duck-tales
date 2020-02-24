@@ -1,30 +1,34 @@
 <template>
-  <div id="app">
+  <v-app>
     <nav-bar></nav-bar>
-  </div>
+    <div class="content-container">
+      <form-data-input></form-data-input>
+    </div>
+  </v-app>
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
+import NavBar from "./components/NavBar";
+import FormDataInput from "./components/FormDataInput";
 
 export default {
   name: "App",
-  components: { NavBar }
+
+  components: {
+    NavBar,
+    FormDataInput
+  },
+
+  data: () => ({
+    //
+  })
 };
 </script>
 
 <style>
-body {
-  margin: 0px;
+.content-container {
+  margin-top: 64px;
 }
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
 .flex {
   display: flex;
 }
@@ -35,9 +39,5 @@ body {
 
 .f-row {
   flex-direction: row;
-}
-
-.f-s-between {
-  justify-content: space-between;
 }
 </style>
